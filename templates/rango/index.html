@@ -10,9 +10,22 @@
 <body>
 <h1>bernie says...</h1>
 <div>
-    hey there partner! <br/>
-    <strong>{{ boldmessage }}</strong><br/>
+    hey there partner  ! <br/>
 </div>
+<div>
+    {% if categories %}
+    <ul>
+        {% for category in categories %}
+        <li>
+            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <strong>There are no categories present.</strong>
+    {% endif %}
+</div>
+
 <div>
     <a href="/rango/about/">About</a><br/>
     <img src="{% static '/static/images/food.JPG' %}" alt="Picture of food" />
