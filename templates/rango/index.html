@@ -8,27 +8,29 @@
     <script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body>
-<h1>bernie says...</h1>
-<div>
-    hey there partner  ! <br/>
-</div>
-<div>
-    {% if categories %}
-    <ul>
-        {% for category in categories %}
-        <li>
-            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <strong>There are no categories present.</strong>
-    {% endif %}
-</div>
-
-<div>
-    <a href="/rango/about/">About</a><br/>
-    <img src="{% static '/static/images/food.JPG' %}" alt="Picture of food" />
-</div>
+    <h1>bernie says...</h1>
+    <div>
+        hey there partner  ! <br/>
+    </div>
+    <div>
+        {% if categories %}
+        <ul>
+            {% for category in categories %}
+            <li>
+                <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+    </div>
+    <div>
+        <a href="/rango/add_category/">Add a New Category</a><br />
+    </div>
+    <div>
+        <a href="/rango/about/">About</a><br/>
+        <img src="{% static '/static/images/food.JPG' %}" alt="Picture of food" />
+    </div>
 </body>
 </html>
