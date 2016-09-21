@@ -22,3 +22,13 @@ class PageForm(forms.ModelForm):
     class Meta:
         model = Page
         exclude = ('category',)
+
+    def clean(self):
+        clean_data = self.changed_data
+        url = clean_data.get('url')
+
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            clean_data['url'] = url
+
+            return clean_data
