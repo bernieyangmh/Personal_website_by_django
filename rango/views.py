@@ -33,6 +33,14 @@ def add_category(request):
             print(form.errors)
     return render(request, 'rango/add_category.html', {'form': form})
 
+
+def about(request):
+    if request.session.test_cookie_worked():
+        print("WORKED!")
+        request.session.delete_test_cookie()
+    return render(request, 'rango/about.html', {})
+
+
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
