@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-{% load staticfiles %}
 
-<html>
-<head>
-    <title>bernie</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <script src="{% static 'js/jquery.js' %}"></script>
-</head>
-<body>
+
+<!DOCTYPE html>
+{% extends "rango/base.html" %}
+{% load staticfiles %}
+{% block title %}Welcome to bernie!{% endblock %}
+
+
+{% block body_block %}
     <h1>bernie says...</h1>
     <div>
         hey there partner  ! <br/>
     </div>
-    <div>
-        {% if categories %}
-        <ul>
-            {% for category in categories %}
-            <li>
-                <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <strong>There are no categories present.</strong>
-        {% endif %}
-    </div>
+
     <div>
         <a href="/rango/add_category/">Add a New Category</a><br />
     </div>
@@ -32,5 +19,4 @@
         <a href="/rango/about/">About</a><br/>
         <img src="{% static '/static/images/food.JPG' %}" alt="Picture of food" />
     </div>
-</body>
-</html>
+{% endblock %}
