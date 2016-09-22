@@ -9,7 +9,11 @@
 {% block body_block %}
     <h1>bernie says...</h1>
     <div>
-        hey there partner  ! <br/>
+        {% if user.is_authenticated %}
+            howdy {{ user.username }}!
+        {% else %}
+            hey there partner!
+        {% endif %}
     </div>
 
     <div>
