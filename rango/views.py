@@ -4,7 +4,8 @@ from rango.forms import CategoryForm, PageForm
 from rango.forms import UserForm, UserProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -111,3 +112,18 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied")
     else:
         return render(request, 'rango/login.html', {})
+
+def some_view(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('You are logged in .')
+    else:
+        return HttpResponse("You are not logged in.")
+
+@login_required
+def restricted(request):
+    return HttpResponse("you can see text")
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
