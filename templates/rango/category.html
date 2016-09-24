@@ -1,29 +1,15 @@
-{% extends 'rango/base.html' %}
-{% load staticfiles %}
-{% block title_block %}
-		{{ category.name }}
-{% endblock %}
-	
-{% block body_block %}
-	<div>
-	{% if category %}
-	
-	<h1>{{ category.name }}</h1>
-		
-		{% if pages %}
-		<ul>
-			{% for page in pages %}
-			    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-			{% endfor %}
-		</ul>
-		{% else %}
-			<strong>No pages currently in category.</strong>
-		{% endif %}
-		<!-- {% if user.is_authenticated %} {% endif %} -->
-		<a href="{% url 'add_page' category.slug %}">Add a Page</a>
-		
-	{% else %}
-		The specified category does not exist!
-	{% endif %}
-	</div>
+{% extends 'base.html' %}
+{% load bootstrap_toolkit %}
+{% block title %}Add Category{% endblock %}
+{% block body\_block %}
+<form id="category_form" method="post"
+      action="{% url 'add_category' %}" \>
+    <h2 class="form-signin-heading" \>Add a Category</a></h2>
+    {% csrf_token %}
+    {{ form|as_bootstrap }}
+    <br/>
+    <button class="btn btn-primary" type="submit"
+            name="submit" \>Create Category\
+    </button\>
+</form>
 {% endblock %}

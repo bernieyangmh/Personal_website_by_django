@@ -1,33 +1,47 @@
-
-
-<!DOCTYPE html>
-{% extends "rango/base.html" %}
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
-{% block title %}Welcome to bernie!{% endblock %}
-
-
+{% block title_block %}
+Index
+{% endblock %}
 {% block body_block %}
-    <h1>bernie says...</h1>
-    <div>
+<div class="jumbotron">
+    <h1 class="display-3">Rango says...</h1>
+    {% if user.is_authenticated %}
+    <h1>hey there {{ user.username }}!</h1>
+    {% else %}
+    <h1>hey there partner! </h1>
+    {% endif %}
+</div>
+<div class="row marketing">
+    <div class="col-lg-6">
+        <h4>Most Liked Categories</h4>
+        <p>
+            {% if categories %}
         <ul>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-                <li><a href="{% url 'login' %}">Sign In</a></li>
-                <li><a href="{% url 'register' %}">Sign Up</a></li>
-            {% endif %}
-                <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'index' %}">Index</a></li>
+            {% for category in categories %}
+            <li><a href="{% url 'show_category' category.slug %}">
+                {{ category.name }}</a></li>
+            {% endfor %}
         </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+        </p>
     </div>
-
-    <div>
-        <a href="/rango/add_category/">Add a New Category</a><br />
+    <div class="col-lg-6">
+        <h4>Most Viewed Pages</h4>
+        <p>
+            {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+        </p>
     </div>
-    <div>
-        <a href="/rango/about/">About</a><br/>
-        <img src="{% static '/static/images/food.JPG' %}" alt="Picture of food" />
-    </div>
+</div>
+<img src="{% static ' images/food.jpg' %}" alt="Picture of Rango" />
 {% endblock %}
