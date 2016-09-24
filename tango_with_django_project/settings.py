@@ -137,3 +137,4 @@ PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 LOGIN_URL = '/rango/login/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

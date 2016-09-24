@@ -8,30 +8,36 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
 
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
 
-def visitor_cookie_handler(request, response):
+def visitor_cookie_handler(request):
     now = datetime.datetime.now()
-    visits_cookie = int(request.COOKIES.get('visits', '1'))
-    last_visit_cookie = request.COOKIES.get('last_visit', str(now))
+    visits_cookie = int(get_server_side_cookie(request, 'visits', '1'))
+    last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(now))
     last_visit_time = datetime.datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
     if (now - last_visit_time).days > 0:
         visits = visits_cookie + 1
-        response.set_cookie('last_vist', str(now))
+        request.session['last_vist'] =  str(now)
     else:
-        response.set_cookie('last_visit', last_visit_cookie)
+        request.session['last_visit'] =  last_visit_cookie
         visits = visits_cookie
 
-    response.set_cookie('visits', visits)
+    request.session['visits'] = visits
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
     context_dict = {'categories': category_list, 'pages': page_list}
 
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
     response = render(request, 'rango/index.html', context_dict)
-    visitor_cookie_handler(request, response)
-    return  response
+    return response
 
 def show_category(request, category_name_slug):
     context_dict = {}
