@@ -1,0 +1,6 @@
+*.pdf
+*.pyc
+*.DS_Store
+db.sqlite3
+*.key
+ bing.key
