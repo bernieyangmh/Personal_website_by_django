@@ -10,6 +10,8 @@ import datetime
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 
+
+
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
     if not val:
@@ -46,7 +48,7 @@ def show_category(request, category_name_slug):
 
     try:
         category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
     except Category.DoesNotExist:
@@ -213,3 +215,20 @@ def list_profiles(request):
     user_list = User.objects.all()
     userprofile_list = UserProfile.objects.all()
     return render(request, 'rango/list_profiles.html', {'user_list' : user_list, 'userprofile_list' : userprofile_list})
+
+
+def track_url(request):
+    page_id = None
+    url = '/rango/'
+    if request.method == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+        if page_id:
+            try:
+                page = Page.objects.get(id=page_id)
+                page.views = page.views + 1
+                page.save()
+                return redirect(page.url)
+            except:
+                return HttpResponse("Page is {0} not found".format(page_id))
+        return redirect(reverse('index'))
