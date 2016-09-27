@@ -2,7 +2,7 @@ __author__ = 'bernie yang'
 # -*- coding:utf-8 -*-
 
 from django.conf.urls import url
-from rango import views
+from rango import views, views_ajax
 
 
 urlpatterns = [
@@ -21,4 +21,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
     url(r'^profiles/$', views.list_profiles, name='list_profiles'),
     url(r'^goto/$', views.track_url, name='goto'),
+    url(r'like/$', views_ajax.like_category, name='like_category'),
+    url(r'^suggest/$', views_ajax.suggest_category, name='suggest_category'),
+    url(r'^add/$', views_ajax.auto_add_page, name='auto_add_page'),
 ]
