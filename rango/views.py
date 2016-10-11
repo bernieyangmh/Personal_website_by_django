@@ -59,7 +59,7 @@ def show_category(request, category_name_slug):
 
     result_list = []
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        query = request.POST.get('query', False)
         if query:
             # Run our Bing function to get the results list!
             result_list = run_query(query)
@@ -68,18 +68,6 @@ def show_category(request, category_name_slug):
 
     # Go render the response and return it to the client.
     return render(request, 'rango/category.html', context_dict)
-
-
-
-
-
-
-
-
-
-
-
-
 
 def add_category(request):
     form = CategoryForm()
@@ -115,8 +103,10 @@ def add_page(request, category_name_slug):
             if category:
                 page = form.save(commit=False)
                 page.category = category
-                page.view = 0
+                page.views = 0
                 page.save()
+                # better to use a redirect here.
+            return show_category(request, category_name_slug)
         else:
             print(form.errors)
 

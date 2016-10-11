@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends './rango/base.html' %}
 {% block title %}Add Page{% endblock %}
 {% block body_block %}
     {% if category %}
-        <form role="form" id="page_form" method="post"
+        <form role="form" id="page_form" method="post" enctype="multipart/form-data"
               action="/rango/category/{{category.slug}}/add_page/">
             <h2 class="form-signin-heading"> Add a Page to
                 <a href="/rango/category/{{category.slug}}/">
